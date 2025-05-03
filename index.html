@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>MDocs</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <button onclick="window.location.href='/landing'" class="back-button">Back to Apps</button> <h2>MDocs – Collaborative Editor</h2>
+
+  <div class="main-container">
+    <div class="editor-container">
+      <div id="line-numbers" class="line-numbers"></div>
+      <textarea id="editor" spellcheck="false"></textarea>
+      <div id="cursors-container" class="cursors-container"></div>
+    </div>
+
+    <div class="chat-container">
+      <div id="chat-messages" class="chat-messages"></div>
+      <div class="chat-input-container">
+        <input type="text" id="chat-input" class="chat-input" placeholder="Type a message...">
+        <button id="chat-send-button" class="chat-send-button">Send</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="status">Not connected</div>
+
+  <script src="chat.js"></script>
+  <script src="docs.js"></script>
+</body>
+</html>

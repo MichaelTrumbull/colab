@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>MSheets</title>
+  <link rel="stylesheet" href="sheets.css">
+  <link rel="stylesheet" href="style.css"> </head>
+<body>
+  <button onclick="window.location.href='/landing'" class="back-button">Back to Apps</button>
+
+  <h2>MSheets – Collaborative Spreadsheet</h2>
+
+  <div class="main-container">
+    <div class="sheet-container">
+      <div id="controls">
+        <button onclick="exportCSV()">Export CSV</button>
+        <input type="file" id="csvInput" accept=".csv">
+      </div>
+
+      <input id="functionBar" type="text" placeholder="Selected cell function" />
+
+      <table id="sheet"></table>
+    </div>
+
+    <div class="chat-container">
+      <div id="chat-messages" class="chat-messages"></div>
+      <div class="chat-input-container">
+        <input type="text" id="chat-input" class="chat-input" placeholder="Type a message...">
+        <button id="chat-send-button" class="chat-send-button">Send</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="sheets.js"></script>
+  <script src="chat.js"></script>
+</body>
+</html>
