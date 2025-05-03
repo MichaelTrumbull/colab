@@ -25,6 +25,7 @@ import (
 //go:embed sheets.html
 //go:embed sheets.js
 //go:embed sheets.css
+//go:embed chat.html
 var embeddedFiles embed.FS
 
 // --- Login and Session Management ---
@@ -548,7 +549,6 @@ func main() {
 	// Docs Application Handlers (require login for the main page, static assets are served directly)
 	http.HandleFunc("/docs", requireLogin(serveEmbeddedFile("index.html", "text/html"))) // Serve docs HTML
 	http.HandleFunc("/docs.js", serveEmbeddedFile("docs.js", "application/javascript"))
-	http.HandleFunc("/chat.js", serveEmbeddedFile("chat.js", "application/javascript")) // Chat JS is shared
 	http.HandleFunc("/style.css", serveEmbeddedFile("style.css", "text/css"))
 	// Docs WebSocket Handler - does its own session check inside handleConnections
 	http.HandleFunc("/ws", handleConnections)
@@ -559,6 +559,9 @@ func main() {
 	http.HandleFunc("/sheets/update", requireLogin(updateSheetCell)) // Update a cell
 	http.HandleFunc("/sheets/sheets.js", serveEmbeddedFile("sheets.js", "application/javascript"))
 	http.HandleFunc("/sheets/sheets.css", serveEmbeddedFile("sheets.css", "text/css"))
+
+	// New Chat Application Handler
+	http.HandleFunc("/chat", requireLogin(serveEmbeddedFile("chat.html", "text/html"))) // Serve chat HTML
 
 	fmt.Println("Server running on http://localhost:8080")
 	log.Fatal(http.ListenAndServe(":8080", nil))

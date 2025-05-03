@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>MChat</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <button onclick="window.location.href='/landing'" class="back-button">Back to Apps</button>
+  <h2>MChat – Collaborative Chat</h2>
+
+  <div class="main-container">
+    <div class="chat-container" style="flex: 1; max-width: none;">
+      <div id="chat-messages" class="chat-messages"></div>
+      <div class="chat-input-container">
+        <input type="text" id="chat-input" class="chat-input" placeholder="Type a message...">
+        <button id="chat-send-button" class="chat-send-button">Send</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="status">Not connected</div>
+
+  <script src="chat.js"></script>
+</body>
+</html>
