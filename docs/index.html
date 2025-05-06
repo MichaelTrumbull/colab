@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Collaborative Doc</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            margin: 20px;
+            background-color: #f4f4f4;
+        }
+        textarea {
+            width: 95%;
+            height: 500px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+            box-sizing: border-box; /* Include padding and border in element's total width and height */
+            display: block; /* Make textarea a block element */
+            margin: 0 auto; /* Center the textarea */
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <h1>Collaborative Document</h1>
+    <textarea id="document" placeholder="Start typing here..."></textarea>
+
+    <script>
+        var websocket;
+        var documentTextarea = document.getElementById("document");
+        var isUpdating = false; // Flag to prevent sending updates while receiving
+
+        function connectWebSocket() {
+            // Attempt to connect to the WebSocket server
+            websocket = new WebSocket("ws://localhost:8080/ws");
+
+            websocket.onopen = function(event) {
+                console.log("WebSocket connection opened:", event);
+                // Connection is open, ready to send and receive messages
+            };
+
+            websocket.onmessage = function(event) {
+                console.log("Message from server:", event.data);
+                // When a message is received, update the textarea content
+                isUpdating = true; // Set flag before updating
+                documentTextarea.value = event.data;
+                // Move cursor to the end after updating
+                documentTextarea.selectionStart = documentTextarea.selectionEnd = documentTextarea.value.length;
+                isUpdating = false; // Reset flag after updating
+            };
+
+            websocket.onerror = function(event) {
+                console.error("WebSocket error observed:", event);
+            };
+
+            websocket.onclose = function(event) {
+                console.log("WebSocket connection closed:", event);
+                // Attempt to reconnect after a delay
+                setTimeout(connectWebSocket, 1000); // Try to reconnect every 1 second
+            };
+        }
+
+        // Start the WebSocket connection when the page loads
+        connectWebSocket();
+
+        // Send the textarea content to the server whenever it changes
+        documentTextarea.addEventListener("input", function() {
+            // Only send update if we are not currently receiving an update
+            if (!isUpdating && websocket && websocket.readyState === WebSocket.OPEN) {
+                websocket.send(documentTextarea.value);
+            }
+        });
+
+    </script>
+</body>
+</html>
